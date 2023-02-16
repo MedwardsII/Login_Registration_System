@@ -1,14 +1,13 @@
 # Login Registration System
 
 ## Description
-- Small scoped command-line program to save, access, and delete username/password combinations to files.
-- Created using C++ in an effort to become familiar with the language's file management features.
-- Created for educational and illustrative purposes only.
+Coded a secure login program in C++ with a focus on object-oriented design and modularity. The program saves usernames to a .dat file and employs encryption to keep passwords safe. I also demonstrated proficiency in file I/O, debugging, algorithmic design, and user interface development.
 
 ### Lessons Learned
 - Working with the fstream class.
 - Creating, accessing, and modifying files.
 - Handling command-line input and output.
+- Creation of basic encryption algorithm.
 
 ## Installation
 
@@ -36,6 +35,8 @@ Selection: 1
 Username: john
 Password: password
 
+Aceess key: 1234
+
 User created!
 ```
 
@@ -45,6 +46,8 @@ Selection: 2
 Username: john
 Password: password
 
+Aceess key: 1234
+
 User logged in successfully!
 ```
 
@@ -53,6 +56,8 @@ Selection: 3
 
 Username: john
 Password: password
+
+Aceess key: 1234
 
 User deleted successfully!
 ```
