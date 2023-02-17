@@ -8,20 +8,20 @@ struct User {
 } User;
 
 void promptMenu(void);
-bool logIn(const struct User, std::string &fileName);
+bool logIn(struct User, std::string& fileName);
 struct User promptData(void);
-bool saveUser(const struct User, std::string &fileName);
-bool duplicantUser(const struct User, std::string &fileName);
-bool deleteUser(const struct User, std::string &fileName);
+bool saveUser(struct User, std::string& fileName);
+bool duplicantUser(struct User, std::string& fileName);
+bool deleteUser(struct User, std::string& fileName);
 
 class encdec {
     private:
-        int key = 1234;
+        int16_t key = 1234;
         std::string file;
         char c;
  
     public:
-        encdec(std::string &fileName): file(fileName){};
+        encdec(std::string& fileName): file(fileName){};
         void encrypt();
         void decrypt();
         bool verifyKey();
@@ -31,7 +31,7 @@ int main(){
     std::string fileName = "decrypt.dat";
     while(true){
         promptMenu();
-        int promptMenuResult;
+        int16_t promptMenuResult;
         std::cin >> promptMenuResult;
         if(promptMenuResult == 1){
             User = promptData();
@@ -87,7 +87,7 @@ void promptMenu(void){
  * @return true 
  * @return false 
  */
-bool logIn(const struct User, std::string &fileName){
+bool logIn(struct User, std::string& fileName){
     try{
         encdec enc(fileName);
         if(enc.verifyKey()){
@@ -133,7 +133,7 @@ struct User promptData(void){
  * @param User
  * @return bool
  */
-bool saveUser(const struct User, std::string &fileName){
+bool saveUser(struct User, std::string& fileName){
     try {
         encdec enc(fileName);
         if(enc.verifyKey()){
@@ -163,13 +163,13 @@ bool saveUser(const struct User, std::string &fileName){
  * @return true 
  * @return false 
  */
-bool duplicantUser(const struct User, std::string &fileName){
+bool duplicantUser(struct User, std::string& fileName){
     try{
         std::ifstream infile;
         infile.open(fileName, std::ios::in);
         std::string line;
         while(getline(infile, line)){
-            int pos = line.find(",");
+            size_t pos = line.find(",");
             std::string target = line.substr(0,pos);
             if (target == User.username){
                 infile.close();
@@ -190,7 +190,7 @@ bool duplicantUser(const struct User, std::string &fileName){
  * @return true 
  * @return false 
  */
-bool deleteUser(const struct User, std::string &fileName){
+bool deleteUser(struct User, std::string& fileName){
     try{
         encdec enc(fileName);
         if(enc.verifyKey()){
@@ -204,7 +204,7 @@ bool deleteUser(const struct User, std::string &fileName){
             }
             infile.close();
             std::string target = User.username + "," + User.password;
-            std::size_t found = data.find(target);
+            size_t found = data.find(target);
             if(found != std::string::npos){
                 data.erase(found, target.length()+1);
             } else{
@@ -237,7 +237,7 @@ void encdec::encrypt()
     fout.open("encrypt.dat", std::fstream::out);
  
     while (fin >> std::noskipws >> c) {
-        int temp = (c + this->key);
+        int16_t temp = (c + this->key);
         fout << (char)temp;
     }
  
@@ -261,7 +261,7 @@ void encdec::decrypt()
  
         // Remove the key from the
         // character
-        int temp = (c - this->key);
+        int16_t temp = (c - this->key);
         fout << (char)temp;
     }
  
@@ -277,7 +277,7 @@ void encdec::decrypt()
  */
 bool encdec::verifyKey(){
     std::cout << "Access key: ";
-    int tempKey;
+    int16_t tempKey;
     std::cin >> tempKey;
     return this->key == tempKey ? true : false; 
 }
