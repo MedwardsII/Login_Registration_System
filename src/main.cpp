@@ -8,26 +8,27 @@ struct User {
 } User;
 
 void promptMenu(void);
-bool logIn(const struct User, std::string fileName);
+bool logIn(const struct User, std::string &fileName);
 struct User promptData(void);
-bool saveUser(const struct User, std::string fileName);
-bool duplicantUser(const struct User, std::string fileName);
-bool deleteUser(const struct User, std::string fileName);
+bool saveUser(const struct User, std::string &fileName);
+bool duplicantUser(const struct User, std::string &fileName);
+bool deleteUser(const struct User, std::string &fileName);
 
 class encdec {
     private:
         int key = 1234;
-        std::string file = "decrypt.dat";
+        std::string file;
         char c;
  
     public:
+        encdec(std::string &fileName): file(fileName){};
         void encrypt();
         void decrypt();
         bool verifyKey();
 };
 
 int main(){
-    const std::string fileName = "decrypt.dat";
+    std::string fileName = "decrypt.dat";
     while(true){
         promptMenu();
         int promptMenuResult;
@@ -86,9 +87,9 @@ void promptMenu(void){
  * @return true 
  * @return false 
  */
-bool logIn(const struct User, std::string fileName){
+bool logIn(const struct User, std::string &fileName){
     try{
-        encdec enc;
+        encdec enc(fileName);
         if(enc.verifyKey()){
             enc.decrypt();
             std::ifstream infile;
@@ -132,9 +133,9 @@ struct User promptData(void){
  * @param User
  * @return bool
  */
-bool saveUser(const struct User, std::string fileName){
+bool saveUser(const struct User, std::string &fileName){
     try {
-        encdec enc;
+        encdec enc(fileName);
         if(enc.verifyKey()){
             enc.decrypt();
             if(!duplicantUser(User, fileName)){
@@ -162,7 +163,7 @@ bool saveUser(const struct User, std::string fileName){
  * @return true 
  * @return false 
  */
-bool duplicantUser(const struct User, std::string fileName){
+bool duplicantUser(const struct User, std::string &fileName){
     try{
         std::ifstream infile;
         infile.open(fileName, std::ios::in);
@@ -189,9 +190,9 @@ bool duplicantUser(const struct User, std::string fileName){
  * @return true 
  * @return false 
  */
-bool deleteUser(const struct User, std::string fileName){
+bool deleteUser(const struct User, std::string &fileName){
     try{
-        encdec enc;
+        encdec enc(fileName);
         if(enc.verifyKey()){
             enc.decrypt();
             std::ifstream infile;
@@ -224,7 +225,7 @@ bool deleteUser(const struct User, std::string fileName){
 }
  
 /**
- * @brief Function definition to encrypt .dat file.
+ * @brief Function definition to encrypt file.
  * 
  */
 void encdec::encrypt()
@@ -246,7 +247,7 @@ void encdec::encrypt()
 }
  
 /**
- * @brief Function definition to decrypt .dat file.
+ * @brief Function definition to decrypt file.
  * 
  */
 void encdec::decrypt()
@@ -269,7 +270,7 @@ void encdec::decrypt()
 }
 
 /**
- * @brief Function to verify authorization to to encrypt/decrypt .dat file.
+ * @brief Function to verify authorization to to encrypt/decrypt file.
  * 
  * @return true 
  * @return false 
