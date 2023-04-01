@@ -1,7 +1,7 @@
 # Login Registration System
 
 ## Description
-Coded a secure login program in C++ with a focus on object-oriented design and modularity. The program saves usernames to a .dat file and employs encryption to keep passwords safe. I also demonstrated proficiency in file I/O, debugging, algorithmic design, and user interface development.
+Coded a secure login console program in C++ with a focus on object-oriented design and modularity. The program saves usernames to a .dat file and employs encryption to keep passwords safe. I also demonstrated proficiency in file I/O, debugging, algorithmic design, and user interface development.
 
 ### Lessons Learned
 - Working with the fstream class.
@@ -13,7 +13,7 @@ Coded a secure login program in C++ with a focus on object-oriented design and m
 
 ### Linux
 ```bash
-g++ -o main main.cpp
+g++ main.cpp login_system.cpp -o main
 ```
 ```bash
 ./main
