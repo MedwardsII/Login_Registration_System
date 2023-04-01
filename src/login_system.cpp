@@ -30,8 +30,7 @@ User promptData(void){
     std::cout << "Password: ";
     std::string password;
     std::cin >> password;
-    User user(username, password);
-    return user;
+    return {username, password};
 }
 
 /**
