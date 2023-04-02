@@ -2,6 +2,7 @@
 #ifndef LOGIN_SYSTEM_HPP
     #define LOGIN_SYSTEM_HPP
         #include "login_system.hpp"
+        using namespace login_system_app;
 #endif
 
 
