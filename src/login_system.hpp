@@ -3,8 +3,8 @@
 namespace login_system_app {
     class User {
         private:
-            std::string username;
-            std::string password;
+            std::string _username;
+            std::string _password;
         public:
             User(const std::string& username, const std::string& password);
             bool logIn(const std::string& fileName);
@@ -18,12 +18,12 @@ namespace login_system_app {
 
     class encdec {
         private:
-            int key = 1234;
-            std::string file;
-            char c;
+            int _key = 1234;
+            std::string _file;
+            char _c;
     
         public:
-            encdec(const std::string& fileName): file(fileName){};
+            encdec(const std::string& fileName);
             void encrypt();
             void decrypt();
             bool verifyKey();

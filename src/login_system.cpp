@@ -35,6 +35,13 @@ namespace login_system_app {
     }
 
     /**
+     * @brief Construct a new encdec::encdec object
+     * 
+     * @param fileName 
+     */
+    encdec::encdec(const std::string& fileName) : _file(fileName) {}
+
+    /**
      * @brief Function definition to encrypt file.
      * 
      */
@@ -43,11 +50,11 @@ namespace login_system_app {
     
         std::fstream fin, fout;
 
-        fin.open(file, std::fstream::in);
+        fin.open(_file, std::fstream::in);
         fout.open("encrypt.dat", std::fstream::out);
     
-        while (fin >> std::noskipws >> c) {
-            int temp = (c + this->key);
+        while (fin >> std::noskipws >> _c) {
+            int temp = (_c + this->_key);
             fout << (char)temp;
         }
     
@@ -67,11 +74,11 @@ namespace login_system_app {
         fin.open("encrypt.dat", std::fstream::in);
         fout.open("decrypt.dat", std::fstream::out);
     
-        while (fin >> std::noskipws >> c) {
+        while (fin >> std::noskipws >> _c) {
     
             // Remove the key from the
             // character
-            int temp = (c - this->key);
+            int temp = (_c - this->_key);
             fout << (char)temp;
         }
     
@@ -89,7 +96,7 @@ namespace login_system_app {
         std::cout << "Access key: ";
         int tempKey;
         std::cin >> tempKey;
-        return this->key == tempKey ? true : false; 
+        return this->_key == tempKey ? true : false; 
     }
 
     /**
@@ -98,10 +105,7 @@ namespace login_system_app {
      * @param userName 
      * @param password 
      */
-    User::User(const std::string& username, const std::string& password){
-        this->username = username;
-        this->password = password;
-    }
+    User::User(const std::string& username, const std::string& password) : _username(username), _password(password) {}
 
     /**
      * @brief Function to save User object to permanent storage. 
@@ -117,7 +121,7 @@ namespace login_system_app {
                 if(!duplicantUser(fileName)){
                     std::ofstream afile;
                     afile.open(fileName, std::ios::app);
-                    afile << username + "," + password << std::endl;
+                    afile << _username + "," + _password << std::endl;
                     afile.close();
                     enc.encrypt();
                     return true;
@@ -147,7 +151,7 @@ namespace login_system_app {
             while(getline(infile, line)){
                 size_t pos = line.find(",");
                 std::string target = line.substr(0,pos);
-                if (target == username){
+                if (target == _username){
                     infile.close();
                     return true;
                 }
@@ -179,7 +183,7 @@ namespace login_system_app {
                     data.append(line+"\n");
                 }
                 infile.close();
-                std::string target = username + "," + password;
+                std::string target = _username + "," + _password;
                 size_t found = data.find(target);
                 if(found != std::string::npos){
                     data.erase(found, target.length()+1);
@@ -215,7 +219,7 @@ namespace login_system_app {
                 std::ifstream infile;
                 infile.open(fileName, std::ios::in);
                 std::string line;
-                std::string target = username + "," + password;
+                std::string target = _username + "," + _password;
                 while(getline(infile, line)){
                     if (target == line){
                         infile.close();
