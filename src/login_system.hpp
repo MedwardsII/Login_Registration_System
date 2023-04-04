@@ -15,17 +15,20 @@ namespace login_system_app {
 
     void promptMenu(void);
     User promptData(void);
-
-    class encdec {
-        private:
-            int _key = 1234;
-            std::string _file;
-            char _c;
     
+    class DataStorage {
         public:
-            encdec(const std::string& fileName);
-            void encrypt();
-            void decrypt();
-            bool verifyKey();
+            static std::string _file;
+            class Encdec {
+                private:
+                    char _c;
+                    int _key;
+                    void setKey();
+                public:
+                    Encdec();
+                    void encrypt();
+                    void decrypt();
+            };
     };
+
 }

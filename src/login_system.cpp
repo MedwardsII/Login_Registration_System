@@ -33,19 +33,20 @@ namespace login_system_app {
         std::cin >> password;
         return {username, password};
     }
-
+    
     /**
-     * @brief Construct a new encdec::encdec object
+     * @brief Construct a new Data Storage:: Encdec:: Encdec object
      * 
-     * @param fileName 
      */
-    encdec::encdec(const std::string& fileName) : _file(fileName) {}
+    DataStorage::Encdec::Encdec() {
+        this->setKey();
+    }
 
     /**
      * @brief Function definition to encrypt file.
      * 
      */
-    void encdec::encrypt()
+    void DataStorage::Encdec::encrypt()
     {
     
         std::fstream fin, fout;
@@ -67,13 +68,13 @@ namespace login_system_app {
      * @brief Function definition to decrypt file.
      * 
      */
-    void encdec::decrypt()
+    void DataStorage::Encdec::decrypt()
     {
         std::fstream fin;
         std::fstream fout;
         fin.open("encrypt.dat", std::fstream::in);
-        fout.open("decrypt.dat", std::fstream::out);
-    
+        fout.open(_file, std::fstream::out);
+
         while (fin >> std::noskipws >> _c) {
     
             // Remove the key from the
@@ -87,16 +88,14 @@ namespace login_system_app {
     }
 
     /**
-     * @brief Function to verify authorization to to encrypt/decrypt file.
+     * @brief Function to set key for encrypt/decrypt file.
      * 
-     * @return true 
-     * @return false 
      */
-    bool encdec::verifyKey(){
+    void DataStorage::Encdec::setKey(){
         std::cout << "Access key: ";
         int tempKey;
         std::cin >> tempKey;
-        return this->_key == tempKey ? true : false; 
+        this->_key = tempKey; 
     }
 
     /**
@@ -115,22 +114,23 @@ namespace login_system_app {
      */
     bool User::saveUser(const std::string& fileName){
         try {
-            encdec enc(fileName);
-            if(enc.verifyKey()){
-                enc.decrypt();
-                if(!duplicantUser(fileName)){
-                    std::ofstream afile;
-                    afile.open(fileName, std::ios::app);
-                    afile << _username + "," + _password << std::endl;
-                    afile.close();
-                    enc.encrypt();
-                    return true;
-                } else{
-                    throw ("User Duplicated");
-                }
-            } else {
-                throw ("Incorrect Access Key!");
+            DataStorage::Encdec enc;
+
+            enc.encrypt();
+
+            enc.decrypt();
+            
+            if(!duplicantUser(fileName)){
+                std::ofstream afile;
+                afile.open(fileName, std::ios::app);
+                afile << _username + "," + _password << std::endl;
+                afile.close();
+                enc.encrypt();
+                return true;
+            } else{
+                throw ("User Duplicated");
             }
+
         } catch(...){
             return false;
         }
@@ -172,32 +172,36 @@ namespace login_system_app {
      */
     bool User::deleteUser(const std::string& fileName){
         try{
-            encdec enc(fileName);
-            if(enc.verifyKey()){
-                enc.decrypt();
-                std::ifstream infile;
-                infile.open(fileName, std::ios::in);
-                std::string data;
-                std::string line;
-                while(getline(infile, line)){
-                    data.append(line+"\n");
-                }
-                infile.close();
-                std::string target = _username + "," + _password;
-                size_t found = data.find(target);
-                if(found != std::string::npos){
-                    data.erase(found, target.length()+1);
-                } else{
-                    return false;
-                }
-                std::ofstream outfile;
-                outfile.open(fileName);
-                outfile << data;
-                outfile.close();
-                enc.encrypt();
-            } else {
-                throw ("Incorrect Access Code!");
+            DataStorage::Encdec enc;
+
+            enc.decrypt();
+
+            std::ifstream infile;
+            infile.open(fileName, std::ios::in);
+            std::string data;
+            std::string line;
+
+            while(getline(infile, line)){
+                data.append(line+"\n");
             }
+
+            infile.close();
+
+            std::string target = _username + "," + _password;
+            size_t found = data.find(target);
+
+            if(found != std::string::npos){
+                data.erase(found, target.length()+1);
+            } else{
+                return false;
+            }
+
+            std::ofstream outfile;
+            outfile.open(fileName);
+            outfile << data;
+            outfile.close();
+            enc.encrypt();
+
             return true;
         } catch(...){
             return false;
@@ -213,27 +217,26 @@ namespace login_system_app {
      */
     bool User::logIn(const std::string& fileName){
         try{
-            encdec enc(fileName);
-            if(enc.verifyKey()){
-                enc.decrypt();
-                std::ifstream infile;
-                infile.open(fileName, std::ios::in);
-                std::string line;
-                std::string target = _username + "," + _password;
-                while(getline(infile, line)){
-                    if (target == line){
-                        infile.close();
-                        return true;
-                    }
+            DataStorage::Encdec enc;
+
+            enc.decrypt();
+            std::ifstream infile;
+            infile.open(fileName, std::ios::in);
+            std::string line;
+            std::string target = _username + "," + _password;
+
+            while(getline(infile, line)){
+                if (target == line){
+                    infile.close();
+                    return true;
                 }
-                infile.close();
-                enc.encrypt();
-            } else {
-                throw ("Incorrect Access Code!");
             }
-            return false;
+
+            infile.close();
+
         } catch(...){
             return false;
         }
+        return false;
     }
 }
