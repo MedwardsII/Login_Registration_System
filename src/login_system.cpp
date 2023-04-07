@@ -51,7 +51,7 @@ namespace login_system_app {
     
         std::fstream fin, fout;
 
-        fin.open(_file, std::fstream::in);
+        fin.open(file, std::fstream::in);
         fout.open("encrypt.dat", std::fstream::out);
     
         while (fin >> std::noskipws >> _c) {
@@ -73,7 +73,7 @@ namespace login_system_app {
         std::fstream fin;
         std::fstream fout;
         fin.open("encrypt.dat", std::fstream::in);
-        fout.open(_file, std::fstream::out);
+        fout.open(file, std::fstream::out);
 
         while (fin >> std::noskipws >> _c) {
     

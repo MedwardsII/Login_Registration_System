@@ -18,7 +18,7 @@ namespace login_system_app {
     
     class DataStorage {
         public:
-            static std::string _file;
+            static std::string file;
             class Encdec {
                 private:
                     char _c;

@@ -6,7 +6,7 @@
 #endif
 
 
-std::string DataStorage::_file = "decrypt.dat";
+std::string DataStorage::file = "decrypt.dat";
 
 int main(){
 
@@ -17,21 +17,21 @@ int main(){
         std::cin >> promptMenuResult;
         if(promptMenuResult == 1){
             User user = promptData();
-            if(user.saveUser(DataStorage::_file)){
+            if(user.saveUser(DataStorage::file)){
                 std::cout << "User created!" << std::endl;
             } else{
                 std::cout << "Error Creating User!" << std::endl;
             }
         } else if (promptMenuResult == 2){
             User user = promptData();
-            if (user.logIn(DataStorage::_file)){
+            if (user.logIn(DataStorage::file)){
                 std::cout << "User logged in successfully!" << std::endl;
             } else{
                 std::cout << "User log-in failed!" << std::endl;
             }
         } else if (promptMenuResult == 3) {
             User user = promptData();
-            if (user.deleteUser(DataStorage::_file)){
+            if (user.deleteUser(DataStorage::file)){
                 std::cout << "User deleted successfully!" << std::endl;
             } else{
                 std::cout << "User deletion failed!" << std::endl;
