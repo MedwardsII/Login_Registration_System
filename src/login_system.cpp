@@ -25,11 +25,10 @@ namespace login_system_app {
      * @return struct User 
      */
     User promptData(void){
-        std::string username;
+        std::string username, password;
         std::cout << "Username: ";
         std::cin >> username;
         std::cout << "Password: ";
-        std::string password;
         std::cin >> password;
         return {username, password};
     }
@@ -48,7 +47,6 @@ namespace login_system_app {
      */
     void DataStorage::Encdec::encrypt()
     {
-    
         std::fstream fin, fout;
 
         fin.open(file, std::fstream::in);
@@ -70,8 +68,7 @@ namespace login_system_app {
      */
     void DataStorage::Encdec::decrypt()
     {
-        std::fstream fin;
-        std::fstream fout;
+        std::fstream fin, fout;
         fin.open("encrypt.dat", std::fstream::in);
         fout.open(file, std::fstream::out);
 
