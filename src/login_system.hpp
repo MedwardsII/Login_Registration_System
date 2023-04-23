@@ -1,4 +1,3 @@
-#include <iostream>
 
 namespace login_system_app {
     class User {
