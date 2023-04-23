@@ -1,9 +1,6 @@
 #include <iostream>
 #include <fstream>
-#ifndef LOGIN_SYSTEM_HPP
-    #define LOGIN_SYSTEM_HPP
-        #include "login_system.hpp"
-#endif
+#include "login_system.hpp"
 
 
 namespace login_system_app {
