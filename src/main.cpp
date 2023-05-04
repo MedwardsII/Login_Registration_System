@@ -3,7 +3,7 @@
 using namespace login_system_app;
 
 
-std::string DataStorage::file = "decrypt.dat";
+const std::string DataStorage::file = "decrypt.dat";
 
 int main(){
 

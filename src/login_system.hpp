@@ -18,7 +18,7 @@
         
         class DataStorage {
             public:
-                static std::string file;
+                static const std::string file;
                 class Encdec {
                     private:
                         char _c;
